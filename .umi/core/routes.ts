@@ -6,16 +6,89 @@ const routes = [
   {
     "path": "/",
     "component": (props) => require('react').createElement(require('../../node_modules/@umijs/preset-dumi/lib/themes/default/layout.js').default, {
-      ...{"menus":{"*":{"*":[{"path":"/","title":"必看说明","meta":{}},{"path":"/容器刷新-1-perpare-refresh","title":"容器刷新-1-perpareRefresh","meta":{}},{"path":"/容器刷新-2-obtain-fresh-bean-factory","title":"容器刷新-2-obtainFreshBeanFactory","meta":{}},{"path":"/容器刷新-2-xml路线-1-load-bean-definitions","title":"Xml路线-1-loadBeanDefinitions","meta":{}}]}},"locales":[],"navs":{},"title":"dumi","mode":"doc"},
+      ...{"menus":{"*":{"*":[{"path":"/","title":"README","meta":{"order":null}},{"title":"Java","path":"/java","meta":{},"children":[{"path":"/java/死磕-class-loader","title":"死磕-ClassLoader","meta":{}}]},{"title":"Spring","path":"/spring","meta":{},"children":[{"path":"/spring","title":"必看说明","meta":{}},{"path":"/spring/容器刷新-1-perpare-refresh","title":"容器刷新-1-perpareRefresh","meta":{}}]}]}},"locales":[],"navs":{},"title":"dumi","mode":"doc"},
       ...props,
     }),
     "routes": [
       {
         "path": "/",
-        "component": require('../../docs/index.md').default,
+        "component": require('../../README.md').default,
         "exact": true,
         "meta": {
-          "filePath": "docs/index.md",
+          "locale": "en-US",
+          "title": "README",
+          "order": null
+        },
+        "title": "README"
+      },
+      {
+        "path": "/java/死磕-class-loader",
+        "component": require('../../docs/java/死磕-ClassLoader.md').default,
+        "exact": true,
+        "meta": {
+          "filePath": "docs/java/死磕-ClassLoader.md",
+          "updatedTime": 1594976283810,
+          "slugs": [
+            {
+              "depth": 1,
+              "value": "死磕-ClassLoader",
+              "heading": "死磕-classloader"
+            },
+            {
+              "depth": 2,
+              "value": "是什么",
+              "heading": "是什么"
+            },
+            {
+              "depth": 2,
+              "value": "延迟加载",
+              "heading": "延迟加载"
+            },
+            {
+              "depth": 2,
+              "value": "特点",
+              "heading": "特点"
+            },
+            {
+              "depth": 1,
+              "value": "ClassLoader 传递性",
+              "heading": "classloader-传递性"
+            },
+            {
+              "depth": 2,
+              "value": "双亲委派",
+              "heading": "双亲委派"
+            },
+            {
+              "depth": 2,
+              "value": "Class.forName",
+              "heading": "classforname"
+            },
+            {
+              "depth": 2,
+              "value": "自定义加载器",
+              "heading": "自定义加载器"
+            },
+            {
+              "depth": 2,
+              "value": "彩蛋",
+              "heading": "彩蛋"
+            }
+          ],
+          "title": "死磕-ClassLoader",
+          "group": {
+            "path": "/java",
+            "title": "Java"
+          }
+        },
+        "title": "死磕-ClassLoader"
+      },
+      {
+        "path": "/spring",
+        "component": require('../../docs/spring/index.md').default,
+        "exact": true,
+        "meta": {
+          "filePath": "docs/spring/index.md",
           "updatedTime": 1594779057635,
           "slugs": [
             {
@@ -24,16 +97,20 @@ const routes = [
               "heading": "必看说明"
             }
           ],
-          "title": "必看说明"
+          "title": "必看说明",
+          "group": {
+            "path": "/spring",
+            "title": "Spring"
+          }
         },
         "title": "必看说明"
       },
       {
-        "path": "/容器刷新-1-perpare-refresh",
-        "component": require('../../docs/容器刷新-1-perpareRefresh.md').default,
+        "path": "/spring/容器刷新-1-perpare-refresh",
+        "component": require('../../docs/spring/容器刷新-1-perpareRefresh.md').default,
         "exact": true,
         "meta": {
-          "filePath": "docs/容器刷新-1-perpareRefresh.md",
+          "filePath": "docs/spring/容器刷新-1-perpareRefresh.md",
           "updatedTime": 1594778948272,
           "slugs": [
             {
@@ -42,70 +119,19 @@ const routes = [
               "heading": "容器刷新-1-perparerefresh"
             }
           ],
-          "title": "容器刷新-1-perpareRefresh"
+          "title": "容器刷新-1-perpareRefresh",
+          "group": {
+            "path": "/spring",
+            "title": "Spring"
+          }
         },
         "title": "容器刷新-1-perpareRefresh"
       },
       {
-        "path": "/容器刷新-2-obtain-fresh-bean-factory",
-        "component": require('../../docs/容器刷新-2-obtainFreshBeanFactory.md').default,
+        "path": "/java",
+        "meta": {},
         "exact": true,
-        "meta": {
-          "filePath": "docs/容器刷新-2-obtainFreshBeanFactory.md",
-          "updatedTime": 1592790013741,
-          "slugs": [
-            {
-              "depth": 1,
-              "value": "容器刷新-2-obtainFreshBeanFactory",
-              "heading": "容器刷新-2-obtainfreshbeanfactory"
-            }
-          ],
-          "title": "容器刷新-2-obtainFreshBeanFactory"
-        },
-        "title": "容器刷新-2-obtainFreshBeanFactory"
-      },
-      {
-        "path": "/容器刷新-2-xml路线-1-load-bean-definitions",
-        "component": require('../../docs/容器刷新-2-Xml路线-1-loadBeanDefinitions.md').default,
-        "exact": true,
-        "meta": {
-          "filePath": "docs/容器刷新-2-Xml路线-1-loadBeanDefinitions.md",
-          "updatedTime": 1592790013741,
-          "slugs": [
-            {
-              "depth": 1,
-              "value": "Xml路线-1-loadBeanDefinitions",
-              "heading": "xml路线-1-loadbeandefinitions"
-            },
-            {
-              "depth": 5,
-              "value": "第11步-解析BeanDefinition",
-              "heading": "第11步-解析beandefinition"
-            },
-            {
-              "depth": 5,
-              "value": "第11.1-默认解析",
-              "heading": "第111-默认解析"
-            },
-            {
-              "depth": 5,
-              "value": "第11.1.1 processBeanDefinition",
-              "heading": "第1111-processbeandefinition"
-            },
-            {
-              "depth": 5,
-              "value": "第11.2-bean标签解析",
-              "heading": "第112-bean标签解析"
-            },
-            {
-              "depth": 5,
-              "value": "第11.3-将xml解析成AbstractBeanDefinition",
-              "heading": "第113-将xml解析成abstractbeandefinition"
-            }
-          ],
-          "title": "Xml路线-1-loadBeanDefinitions"
-        },
-        "title": "Xml路线-1-loadBeanDefinitions"
+        "redirect": "/java/死磕-class-loader"
       }
     ],
     "title": "dumi"
