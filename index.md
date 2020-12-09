@@ -1,3 +1,3 @@
 # TODO
 
-> npx dumi dev
+> d
