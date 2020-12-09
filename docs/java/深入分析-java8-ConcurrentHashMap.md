@@ -1,33 +1,21 @@
 # 深入分析-java8-ConcurrentHashMap
 
-
-
-
-
 ### 知识
 
 - 数组 + 链表 + 红黑树（链表 >=8 的时候，会转换为红黑树）
 
-
-
-
-
 ### 是怎么多线程扩容的？
 
->  代码略...
-
-
+> 代码略...
 
 ##### 扩容分为两种
 
-- 普通的Node
+- 普通的 Node
 - TreeBin(红黑树)
 
-因为java8里面扩容会整体调整，可能扩容的时候还不是一个红黑树，只是一个链表。
+因为 java8 里面扩容会整体调整，可能扩容的时候还不是一个红黑树，只是一个链表。
 
-
-
-##### 普通Node扩容
+##### 普通 Node 扩容
 
 ```java
 if (fh >= 0) {
@@ -67,29 +55,11 @@ if (fh >= 0) {
 }
 ```
 
+- 扩容会采用 synchronized 锁住 **头节点**
+- <1> 可以看出，是一并转移的，node 没有进过 hash 计算 index 位置
+- <2> <3> 扩容很有意思，将 old 的数据，移到新的 table，头在新的 table 最尾处
 
-
-- 扩容会采用 synchronized 锁住 **头节点** 
-- <1> 可以看出，是一并转移的，node没有进过 hash计算 index位置
-- <2> <3> 扩容很有意思，将old的数据，移到新的table，头在新的table最尾处
-
-
-
-##### 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#####
 
 ### ForwardingNode 是什么？
 
@@ -101,20 +71,13 @@ if (fh >= 0) {
             super(MOVED, null, null, null);
             this.nextTable = tab;
         }
-    
+
     // 略...
   }
 ```
 
-- ConcurrentHashMap 是多线程扩容的，那么扩容完成后，会创建一个 ForwardingNode 放到旧的地方，替换原来的 Node，因为 ForwardingNode 里面保存新的 table 引用，所以 ForwardingNode 继承了 Node，重写了find() 方法。
-
-
+- ConcurrentHashMap 是多线程扩容的，那么扩容完成后，会创建一个 ForwardingNode 放到旧的地方，替换原来的 Node，因为 ForwardingNode 里面保存新的 table 引用，所以 ForwardingNode 继承了 Node，重写了 find() 方法。
 
 ### TreeBin 是什么？
 
 TreeBin 是 ConcurrentHashMap 里面用来保存红黑树的。
-
-
-
-
-

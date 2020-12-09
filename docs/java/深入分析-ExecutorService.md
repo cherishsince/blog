@@ -1,31 +1,23 @@
 # 深入分析-ExecutorService
 
-
-
 ExecutorService 中提供了，我们业务需要的一些任务执行工具，比如 invokerALL 和 invokerAny 方法。
 
 像数据聚合，和请求并发调用，都可以采用这种方式。
 
-
-
-### Future 
+### Future
 
 ##### get()方法
 
-方法get（）将阻止执行，直到任务完成。但是我们不必担心，因为我们的示例只是在确保任务完成后才调用get（）。因此，在这种情况下，future.get（）将始终立即返回。
+方法 get（）将阻止执行，直到任务完成。但是我们不必担心，因为我们的示例只是在确保任务完成后才调用 get（）。因此，在这种情况下，future.get（）将始终立即返回。
 
+##### 使用 cancel()取消 Future
 
-
-#####  使用cancel()取消Future
-
-假设我们已经触发了一项任务，但由于某种原因，我们不再关心结果了。我们可以使用Future.cancel（boolean）告诉执行程序停止操作并中断其底层线程：
+假设我们已经触发了一项任务，但由于某种原因，我们不再关心结果了。我们可以使用 Future.cancel（boolean）告诉执行程序停止操作并中断其底层线程：
 
 ```java
 Future<Integer> future = new SquareCalculator().calculate(4);
 boolean canceled = future.cancel(true);
 ```
-
-
 
 ### invokeAll 方法
 
@@ -62,7 +54,7 @@ public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
             if (nanos <= 0)
                 return futures;
         }
-				
+
         // 迭代 Futuer 任务
         for (Future<T> f : futures) {
             // <5> 检查任务是否完成，并检查超时时间
@@ -96,11 +88,7 @@ public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
 ```
 
 - 采用 Futuer 任务的形式，回调任务。
-- 任务分为两部分 1、转换为 Futuer 2、添加到Execute 去执行 3、回调所有 Futuer 任务。
-
-
-
-
+- 任务分为两部分 1、转换为 Futuer 2、添加到 Execute 去执行 3、回调所有 Futuer 任务。
 
 ### invokeAny
 
@@ -193,4 +181,3 @@ private <T> T doInvokeAny(Collection<? extends Callable<T>> tasks,
 ```
 
 - **invokeAny 不是一次性提交所有任务，而是挨个尝试，只要有一个成功就返回。**
-

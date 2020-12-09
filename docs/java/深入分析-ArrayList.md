@@ -1,15 +1,11 @@
 # 深入分析-ArrayList
 
-
-
 ### 知识：
 
-- 扩容：每次扩容是1.5倍(如10 规则 =10 + (10 >> 1))
+- 扩容：每次扩容是 1.5 倍(如 10 规则 =10 + (10 >> 1))
 
 - modCount 记录修改次数
 - contains() 调用的是 indexOf()
-
-
 
 ### 怎么扩容？
 
@@ -29,11 +25,6 @@ private void grow(int minCapacity) {
 
 ```
 
-- 扩容是1.5倍
+- 扩容是 1.5 倍
 - 最大容量是 Integer.MAX_VALUE
 - 采用 Arrays.copyOf 扩容，底层调用的是 System.arraycopy
-
-
-
-
-

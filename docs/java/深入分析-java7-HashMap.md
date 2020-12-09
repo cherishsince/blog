@@ -1,14 +1,12 @@
 # 深入分析-HashMap
 
-HashMap分 java7、java8 两个版本，java8对 HashMap 进行了优化。
+HashMap 分 java7、java8 两个版本，java8 对 HashMap 进行了优化。
 
 - Java7: 数组 + 链表
 
 - java8: 数组 + [链表 + 红黑树]
 
-
-
-基本属性(不区分java7、java8)：
+基本属性(不区分 java7、java8)：
 
 ```java
 // maximum_capacity 最大容量 1073741824(10亿多)
@@ -27,24 +25,20 @@ final float loadFactor;
 transient int modCount;
 ```
 
-
-
 - 加载因子：0.75
-- 扩容：当前的大小 * 2 (是table.length，扩容的时候是 loadFactor 还没到 table.length)
+- 扩容：当前的大小 \* 2 (是 table.length，扩容的时候是 loadFactor 还没到 table.length)
 - 最大容量：1 << 30 次幂
-- 初始化在：首次put方法调用才会初始化
+- 初始化在：首次 put 方法调用才会初始化
 
-- key可以相同：允许覆盖
-- 允许key为null
-- 默认大小：java7为16，java8也是16，不过8是在put()的时候resize()里面
+- key 可以相同：允许覆盖
+- 允许 key 为 null
+- 默认大小：java7 为 16，java8 也是 16，不过 8 是在 put()的时候 resize()里面
 - 非现场安全的(可以采用 Collections.synchronizedMap(null) 进行换行为线程安全的)
-- 是头插入法：hash冲突的时候，新的node会在最前面
-
-
+- 是头插入法：hash 冲突的时候，新的 node 会在最前面
 
 ### 什么时候初始化呢？
 
-HashMap 我们在new的时候不会去初始化容量，**只是将一个空的Entry给table属性**。
+HashMap 我们在 new 的时候不会去初始化容量，**只是将一个空的 Entry 给 table 属性**。
 
 ```java
 // HashMap.class
@@ -77,15 +71,11 @@ private static int roundUpToPowerOf2(int number) {
 }
 ```
 
-- HashMap初始化：是在首次的 put 才会进行。
+- HashMap 初始化：是在首次的 put 才会进行。
 
+### 怎么计算 key 的位置呢？
 
-
-
-
-### 怎么计算key的位置呢？
-
-通过key的hashCode，然后和 table.length 计算位置。
+通过 key 的 hashCode，然后和 table.length 计算位置。
 
 ```java
 // HashMap
@@ -138,10 +128,8 @@ static int indexFor(int h, int length) {
 }
 ```
 
-- **每次扩容的时候，都需要重新计算Node在table的位置**
-- 通过key的hashCode，然后和 table.length 计算位置。
-
-
+- **每次扩容的时候，都需要重新计算 Node 在 table 的位置**
+- 通过 key 的 hashCode，然后和 table.length 计算位置。
 
 ### HashCode 是怎么来的？
 
@@ -162,13 +150,11 @@ static int indexFor(int h, int length) {
 public native int hashCode();
 ```
 
-意思是：hash值来源于这个对象的 **内部地址转换成的整型值。**
+意思是：hash 值来源于这个对象的 **内部地址转换成的整型值。**
 
-**这里我们可以得出，java的hashCode是唯一的。**
+**这里我们可以得出，java 的 hashCode 是唯一的。**
 
-
-
-###### JVM-HashCode生成规则
+###### JVM-HashCode 生成规则
 
 - 随机数
 - 内存地址
@@ -176,24 +162,20 @@ public native int hashCode();
 - 自增序列
 - 利用位移生成随机数(默认)
 
->  详细了解(Java7): https://zhuanlan.zhihu.com/p/33915892
+> 详细了解(Java7): https://zhuanlan.zhihu.com/p/33915892
 
-###### HashCode 可以说是惟一的，为什么还会有Hash冲突呢？
+###### HashCode 可以说是惟一的，为什么还会有 Hash 冲突呢？
 
-hashCode需要从一个二进制的地址转换为一个极小值，肯定会有hash碰撞，不过可以通过不同的算法来降低hash碰撞的概率，不过需要考虑性能和优势。
+hashCode 需要从一个二进制的地址转换为一个极小值，肯定会有 hash 碰撞，不过可以通过不同的算法来降低 hash 碰撞的概率，不过需要考虑性能和优势。
 
-
-
-### 如何解决Hash碰撞
+### 如何解决 Hash 碰撞
 
 - 开放地址法： 开放地执法有一个公式:Hi=(H(key)+di) MOD m i=1,2,…,k(k<=m-1)
   基本思想：当发生地址冲突时，按照某种方法继续探测哈希表中的其他存储单元，直到找到空位置为止。
-- rehash(再hash法)：使用第二个或第三个...计算地址，知道无冲突。比如：按首字母进行hash冲突了，则按照首字母第二位，进行hash寻址。
+- rehash(再 hash 法)：使用第二个或第三个...计算地址，知道无冲突。比如：按首字母进行 hash 冲突了，则按照首字母第二位，进行 hash 寻址。
 - 链地址法(拉链法)默认的：创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。
 
 详细地址：https://www.jianshu.com/p/5a97034ff247
-
-
 
 ### 怎么扩容转义链表数据的？
 
@@ -218,14 +200,10 @@ void transfer(Entry[] newTable, boolean rehash) {
 }
 ```
 
-- <1>: 采用的一个循环，不为 null 的进行hash运算计算，newTable的位置，然后保存。
-- <2>: hash冲突的元素，也需要重新计算位置，扩容后可能链表后的元素又不冲突了。
-
-
+- <1>: 采用的一个循环，不为 null 的进行 hash 运算计算，newTable 的位置，然后保存。
+- <2>: hash 冲突的元素，也需要重新计算位置，扩容后可能链表后的元素又不冲突了。
 
 ### HashMap 中的 hashSeed 是做什么的？
-
-
 
 ```java
 // HashMap.class
@@ -276,17 +254,11 @@ public static int randomHashSeed(Object var0) {
 
 - hashSeed 只会在 hash() 这个地方使用
 
-- randomHashSeed  意思 ”随机 hash 起点“ ，就是重新计算 hash的一个起点** 
+- randomHashSeed 意思 ”随机 hash 起点“ ，就是重新计算 hash 的一个起点\*\*
 
-- hashSeed 标识默认为 0，第一次扩容（不是初始化）会调用 randomHashSeed 随机hash起点，在hash中会到(sun.misc.Hashing.stringHash32((String) k); )
+- hashSeed 标识默认为 0，第一次扩容（不是初始化）会调用 randomHashSeed 随机 hash 起点，在 hash 中会到(sun.misc.Hashing.stringHash32((String) k); )
 
-  
-
->简单理解就是，hash冲突的优化操作
-
-
-
-
+> 简单理解就是，hash 冲突的优化操作
 
 ### Iterator 是怎么获取元素的？
 
@@ -324,9 +296,7 @@ final Entry<K,V> nextEntry() {
 - <1> 初始化的时候，就算计算 next 是否存在。
 - <2> <3> 是计算下一个 entity 对象是否存在了，这个方法作用是，获取当前的 Entry，计算下一个 Entry。
 
-
-
-### Null 的key是存在HashMap的那个地方？
+### Null 的 key 是存在 HashMap 的那个地方？
 
 ```java
 // HashMap.class
@@ -347,14 +317,10 @@ private V putForNullKey(V value) {
 }
 ```
 
-- 如果 null 为key，hashMap 会将 null 默认放到 0
-- null 不存在 hash 冲突如果相同的 null 作为key，只会覆盖value
-
-
+- 如果 null 为 key，hashMap 会将 null 默认放到 0
+- null 不存在 hash 冲突如果相同的 null 作为 key，只会覆盖 value
 
 ## 扩展知识
-
-
 
 ```java
 // highest(最高) 第一个 bit(进制的 bit 意思，一个8b=1byte)
@@ -378,10 +344,9 @@ public static int highestOneBit(int i) {
 // 1100 0011
 // >> 2
 // 0011 0000
-// | 
+// |
 // 1111 0011
 
 // >> 4 8 6 略
 // 就是找到当前值，第一位的2次幂，10找到的是8，向移动然后通过 | 补1，最后就是我们想要的值
 ```
-

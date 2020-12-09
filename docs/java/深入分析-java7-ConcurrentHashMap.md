@@ -1,18 +1,14 @@
 # 深入分析-java7-ConcurrentHashMap
 
-
-
 知识：
 
 - Segments: 最大容量 1 << 16
-- HashEntry[]：数组最大容量 1 << 30 (和HashMap一样)
+- HashEntry[]：数组最大容量 1 << 30 (和 HashMap 一样)
 - value：不能为空
-- 存储结构：分段锁，Segment继承了 ReentrantLock 
+- 存储结构：分段锁，Segment 继承了 ReentrantLock
 - new ConcurrentHashMap: 默认会初始化一个空的 Segment
 - Segment 内的 HashEntry<k, v>[] 最小是 2 个
 - 在扩容中，这 Segment 里面的数据不能操作（可以读取）。
-
-
 
 ### 怎么扩容的
 
@@ -75,9 +71,7 @@ private void rehash(HashEntry<K,V> node) {
 - 在扩容中，这 Segment 里面的数据不能操作（可以读取）。
 - 扩容采用，头插法 并会将每个 node 重新计算 newTable 未知然后设置进去。
 
-
-
-### 怎么获取Lock的
+### 怎么获取 Lock 的
 
 ```java
 // ConcurrentHashMap.class
@@ -119,6 +113,3 @@ private HashEntry<K,V> scanAndLockForPut(K key, int hash, V value) {
 
 - Segment 继承了 ReentrantLock 所以在调用 tryLock() 的时候，这一段已经被锁住了；
 - <1> 其他线程循环 tryLock()，最大次数为 2
-
-
-
