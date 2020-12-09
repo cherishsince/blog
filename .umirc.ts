@@ -1,7 +1,10 @@
 import { defineConfig } from 'dumi';
 
+// more config: https://d.umijs.org/config
 export default defineConfig({
-  title: 'Site Name',
+  title: '我是大叔',
   mode: 'site',
-  // more config: https://d.umijs.org/config
+  // 按需加载
+  dynamicImport: {},
+  locales: [],
 });
