@@ -1,23 +1,21 @@
-# 我是大叔
+# dumi app
 
-[java](java)
+## Getting Started
 
-[mybatis](mybatis)
+Install dependencies,
 
-[eureka](eureka)
+```bash
+$ npm i
+```
 
-[spring](spring)
+Start the dev server,
 
+```bash
+$ npm start
+```
 
-<a href="spring">
-    <img src="./assets/spring-logo.svg" width="100" height="100" alt="spring" align=center />
-</a>
-<a href="mybatis">
-    <img src="./assets/mybatis-logo.png" width="100" alt="mybatis" align=center />
-</a>
-<a href="java">
-    <img src="./assets/java-logo.svg" width="100" alt="java" align=center />
-</a>
+Build site app,
 
-
-
+```bash
+$ npm run build
+```
