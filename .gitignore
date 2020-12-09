@@ -14,7 +14,7 @@
 .DS_Store
 
 .idea
-.iml
+*.iml
 
 
 # umi
