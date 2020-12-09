@@ -11,6 +11,6 @@ export default defineConfig({
   // 按需加载
   dynamicImport: {},
   // 服务器渲染，静态html
-  // ssr: {},
+  ssr: {},
   exportStatic: { },
 });
