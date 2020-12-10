@@ -19,4 +19,7 @@ export default defineConfig({
     // staticMarkup: true,
   },
   exportStatic: {},
+  analytics: {
+    baidu: 'ce38bfacf57ee056189e8208e2a33740',
+  },
 });

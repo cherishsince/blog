@@ -10,7 +10,7 @@ hero:
 footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](https://d.umijs.org)
 ---
 
-## 
+##
 
 <ul style="display: flex; flex-wrap: wrap; margin: 0px; padding: 10px 0px; list-style: none;">
   <li
@@ -89,7 +89,9 @@ footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](http
   </li>
 </ul>
 
-
+<script>
+window._hmt.push(['_trackEvent', "首页", "播放", "-", "1"]);
+</script>
 
 ## 致谢
 
