@@ -9,14 +9,14 @@ export default defineConfig({
   publicPath: '/',
   locales: [],
   // 按需加载
-  dynamicImport: {},
+  // dynamicImport: {},
   // 服务器渲染，静态html
   ssr: {
-    forceInitial: false,
+    // forceInitial: false,
     // removeWindowInitialProps: false,
-    devServerRender: true,
-    mode: 'string',
-    staticMarkup: true,
+    // devServerRender: true,
+    // mode: 'string',
+    // staticMarkup: true,
   },
   exportStatic: {},
 });
