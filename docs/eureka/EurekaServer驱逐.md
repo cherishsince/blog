@@ -1,6 +1,6 @@
 # EurekaServer驱逐
 
-**驱逐** 未及时续约，或者异常退出的服务；
+**EurekaServer驱逐** 是 <u>**未及时续约**</u> 或 **<u>异常退出</u>** 的服务，`Eureka` 会有专门的 `Timer` 来进行扫描，需要注意的是**<u>只有关闭自我保护的情况下才会进行</u>**。
 
 ## 驱逐任务
 
@@ -144,8 +144,6 @@ public void evict(long additionalLeaseMs) {
 
 
 
-
-
 ##### isExpired 过期判断
 
 ```java
@@ -163,7 +161,7 @@ public boolean isExpired(long additionalLeaseMs) {
 
 说明：
 
-+
+
 
 
 
