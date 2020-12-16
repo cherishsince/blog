@@ -33,7 +33,7 @@ footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](http
   </li>
   <li
     style="width: 220px; margin-right: 16px; margin-bottom: 8px; border: 1px solid rgb(238, 238, 238);text-align: center; font-size: 20px; font-weight: 600; border-radius: 2px; display: flex;align-items: center; justify-content: center;">
-    <a href="https://umijs.org" style="display: block; color: rgb(102, 102, 102); padding: 18px;">
+    <a href="eureka" style="display: block; color: rgb(102, 102, 102); padding: 18px;">
       <img
         width="100"
         src="/logo/eureka-logo.png"

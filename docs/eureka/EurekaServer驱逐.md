@@ -2,9 +2,9 @@
 
 **EurekaServer驱逐** 是 <u>**未及时续约**</u> 或 **<u>异常退出</u>** 的服务，`Eureka` 会有专门的 `Timer` 来进行扫描，需要注意的是**<u>只有关闭自我保护的情况下才会进行</u>**。
 
-## 驱逐任务
 
-`EurekaServer` 驱逐是一个 `TimerTask` ，默认驱逐时间为 60秒， 可以设置 evictionIntervalTimerInMs 进行配置，
+
+### 驱逐的TimerTask
 
 代码如下：
 
@@ -59,9 +59,11 @@ class EvictionTask extends TimerTask {
 
 说明：
 
+- `EurekaServer` 驱逐是一个 `TimerTask` ，默认驱逐时间为 60秒， 可以设置 `evictionIntervalTimerInMs` 进行配置。
+
 - <1> 获取的这个补偿时间，是比较有意思的，这个补充时间是，用于 **时钟偏移，gc，实例的数量，服务器之间同步** ，根据上一次执行的时间，来确定本次补充的大小。
 
-- getCompensationTimeMs 里面是补充逻辑，和 getEvictionIntervalTimerInMs 驱逐时间有很大关系（具体看代码注释信息），
+- `getCompensationTimeMs` 里面是补充逻辑，和 `getEvictionIntervalTimerInMs` 驱逐时间有很大关系（具体看代码注释信息）。
 
 
 
