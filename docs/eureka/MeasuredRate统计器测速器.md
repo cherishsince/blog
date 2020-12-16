@@ -1,6 +1,4 @@
-# MeasuredRate测速器
-
-
+# MeasuredRate 测速器
 
 ### 概述
 
@@ -9,11 +7,9 @@
 1. 每分钟心跳的次数，做自我保护使用。
 2. 最后一分钟的复制次数，这个用于集群复制，只是做一个统计，用于监听。
 
-
-
 ### 开始分析
 
- 代码如下：
+代码如下：
 
 ```java
 /**
@@ -102,20 +98,41 @@ public class MeasuredRate {
 说明：
 
 - **MeasuredRate** 统计用的是 Java 的 Timer，在某一段时间内进行统计，在初始化的时候可以设置统计时间(毫秒)。
-- **lastBucket** 和 **currentBucket** 是一个 `AtomicLong` 那么在设置值的时候是，CAS机制能够保证线程安全。
+- **lastBucket** 和 **currentBucket** 是一个 `AtomicLong` 那么在设置值的时候是，CAS 机制能够保证线程安全。
 - **lastBucket** 是上一次统计的数据，**currentBucket **是当前统计的数据。
-- **start()**  是一个比较重要的方法，会定时调用这个 TaskTimer，将当前统计的数据，放到 **lastBucket**  并清空 **currentBucket**。
+- **start()** 是一个比较重要的方法，会定时调用这个 TaskTimer，将当前统计的数据，放到 **lastBucket** 并清空 **currentBucket**。
 
+### 续租每分钟次数
 
+代码如下：
+
+```java
+// AbstractInstanceRegistry
+public boolean renew(String appName, String id, boolean isReplication) {
+    // 略...
+
+    // <2> 续租每分钟次数 +1
+    renewsLastMin.increment();
+    // <3> 设置 租约最后更新时间（续租）
+    leaseToRenew.renew();
+    return true;
+}
+```
+
+说明：
+
+- eureka server 在每次续约的时候，每次都会+1，用于统计。
 
 完结~
-
-
-
-
 
 ## 问答
 
 1. `Eureka` 的自我保护，是怎么去统计的？
+
+   通过 `MeasuredRate` 进行统计，每次 `renew()` 续约的时候，都会进行+1
+
 2. `Eureka` 中的 `MeasuredRate` 主要用在那些地方？
 
+   两个地方，1.续约次数统计 2.集群复制的统计
+
+​

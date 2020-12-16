@@ -1,0 +1,257 @@
+{
+	"_type": "Project",
+	"_id": "AAAAAAFF+h6SjaM2Hec=",
+	"name": "Eureka",
+	"ownedElements": [
+		{
+			"_type": "UMLActivity",
+			"_id": "AAAAAAF2ahaAu0Dc6kg=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Eureka Zone",
+			"ownedElements": [
+				{
+					"_type": "UMLActivityDiagram",
+					"_id": "AAAAAAF2ahaAu0DdACA=",
+					"_parent": {
+						"$ref": "AAAAAAF2ahaAu0Dc6kg="
+					},
+					"name": "Eureka Zone",
+					"ownedViews": [
+						{
+							"_type": "UMLActionView",
+							"_id": "AAAAAAF2ajbwSkDltDw=",
+							"_parent": {
+								"$ref": "AAAAAAF2ahaAu0DdACA="
+							},
+							"model": {
+								"$ref": "AAAAAAF2ajbwSUDjRIk="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAF2ajbwSkDmd/A=",
+									"_parent": {
+										"$ref": "AAAAAAF2ajbwSkDltDw="
+									},
+									"model": {
+										"$ref": "AAAAAAF2ajbwSUDjRIk="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajbwSkDnLZk=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajbwSkDmd/A="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -32,
+											"top": -176,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajbwSkDorlE=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajbwSkDmd/A="
+											},
+											"font": "Arial;13;1",
+											"left": 53,
+											"top": 119,
+											"width": 50,
+											"height": 13,
+											"text": "beijing"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajbwSkDpPDE=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajbwSkDmd/A="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -32,
+											"top": -176,
+											"width": 112.70263671875,
+											"height": 13,
+											"text": "(from Eureka Zone)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajbwSkDqES4=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajbwSkDmd/A="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -32,
+											"top": -176,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 48,
+									"top": 112,
+									"width": 60,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAF2ajbwSkDnLZk="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAF2ajbwSkDorlE="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAF2ajbwSkDpPDE="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAF2ajbwSkDqES4="
+									}
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 48,
+							"top": 112,
+							"width": 60,
+							"height": 41,
+							"nameCompartment": {
+								"$ref": "AAAAAAF2ajbwSkDmd/A="
+							}
+						},
+						{
+							"_type": "UMLActionView",
+							"_id": "AAAAAAF2ajcQt0D/W0c=",
+							"_parent": {
+								"$ref": "AAAAAAF2ahaAu0DdACA="
+							},
+							"model": {
+								"$ref": "AAAAAAF2ajcQt0D9dOE="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAF2ajcQt0EAdyw=",
+									"_parent": {
+										"$ref": "AAAAAAF2ajcQt0D/W0c="
+									},
+									"model": {
+										"$ref": "AAAAAAF2ajcQt0D9dOE="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajcQt0EBMK8=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajcQt0EAdyw="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -176,
+											"top": -192,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajcQt0ECTU8=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajcQt0EAdyw="
+											},
+											"font": "Arial;13;1",
+											"left": 173,
+											"top": 119,
+											"width": 57.0654296875,
+											"height": 13,
+											"text": "shanghai"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajcQt0EDu4A=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajcQt0EAdyw="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -176,
+											"top": -192,
+											"width": 112.70263671875,
+											"height": 13,
+											"text": "(from Eureka Zone)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF2ajcQt0EE44Y=",
+											"_parent": {
+												"$ref": "AAAAAAF2ajcQt0EAdyw="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": -176,
+											"top": -192,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 168,
+									"top": 112,
+									"width": 67.0654296875,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAF2ajcQt0EBMK8="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAF2ajcQt0ECTU8="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAF2ajcQt0EDu4A="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAF2ajcQt0EE44Y="
+									}
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 168,
+							"top": 112,
+							"width": 67.0654296875,
+							"height": 41,
+							"nameCompartment": {
+								"$ref": "AAAAAAF2ajcQt0EAdyw="
+							}
+						}
+					]
+				}
+			],
+			"nodes": [
+				{
+					"_type": "UMLAction",
+					"_id": "AAAAAAF2ajbwSUDjRIk=",
+					"_parent": {
+						"$ref": "AAAAAAF2ahaAu0Dc6kg="
+					},
+					"name": "beijing"
+				},
+				{
+					"_type": "UMLAction",
+					"_id": "AAAAAAF2ajcQt0D9dOE=",
+					"_parent": {
+						"$ref": "AAAAAAF2ahaAu0Dc6kg="
+					},
+					"name": "shanghai"
+				},
+				{
+					"_type": "UMLAction",
+					"_id": "AAAAAAF2ajdae0EavQI=",
+					"_parent": {
+						"$ref": "AAAAAAF2ahaAu0Dc6kg="
+					},
+					"name": "Action1"
+				}
+			]
+		}
+	]
+}

@@ -1,17 +1,15 @@
-# EurekaServer驱逐
+# EurekaServer 驱逐
 
-**EurekaServer驱逐** 是 <u>**未及时续约**</u> 或 **<u>异常退出</u>** 的服务，`Eureka` 会有专门的 `Timer` 来进行扫描，需要注意的是**<u>只有关闭自我保护的情况下才会进行</u>**。
+**EurekaServer 驱逐** 是 <u>**未及时续约**</u> 或 **<u>异常退出</u>** 的服务，`Eureka` 会有专门的 `Timer` 来进行扫描，需要注意的是**<u>只有关闭自我保护的情况下才会进行</u>**。
 
-
-
-### 驱逐的TimerTask
+### 驱逐的 TimerTask
 
 代码如下：
 
 ```java
 // AbstractInstanceRegistry
 class EvictionTask extends TimerTask {
-    
+
     private final AtomicLong lastExecutionNanosRef = new AtomicLong(0l);
 
     @Override
@@ -59,20 +57,18 @@ class EvictionTask extends TimerTask {
 
 说明：
 
-- `EurekaServer` 驱逐是一个 `TimerTask` ，默认驱逐时间为 60秒， 可以设置 `evictionIntervalTimerInMs` 进行配置。
+- `EurekaServer` 驱逐是一个 `TimerTask` ，默认驱逐时间为 60 秒， 可以设置 `evictionIntervalTimerInMs` 进行配置。
 
 - <1> 获取的这个补偿时间，是比较有意思的，这个补充时间是，用于 **时钟偏移，gc，实例的数量，服务器之间同步** ，根据上一次执行的时间，来确定本次补充的大小。
 
 - `getCompensationTimeMs` 里面是补充逻辑，和 `getEvictionIntervalTimerInMs` 驱逐时间有很大关系（具体看代码注释信息）。
-
-
 
 ### 调用驱逐
 
 ```java
 public void evict(long additionalLeaseMs) {
     logger.debug("Running the evict task");
-    // 没有开启驱逐，就直接 return
+    // <0> 没有开启驱逐，就直接 return
     if (!isLeaseExpirationEnabled()) {
         logger.debug("DS: lease expiration is currently disabled.");
         return;
@@ -142,11 +138,36 @@ public void evict(long additionalLeaseMs) {
 说明：
 
 - 驱逐顺序是，1、收集驱逐的实例 2、计算驱逐数量 3、执行随机驱逐
-- <1> 收集驱逐实例, 调用 `isExpired` **判断是否过期** , 
 
+- <0> 是否启用续租到期处理，这个和自我保护也有关系 **(说明如下)**
 
+- <1> 收集驱逐实例, 调用 `isExpired` **判断是否过期** **(说明如下)**
 
-##### isExpired 过期判断
+##### <0> 是否启动续租到期处理
+
+```java
+// PeerAwareInstanceRegistryImpl
+@Override
+public boolean isLeaseExpirationEnabled() {
+    // <1> 关闭自我保护进入
+    if (!isSelfPreservationModeEnabled()) {
+        // 自保留模式被禁用，因此允许实例过期。
+        // The self preservation mode is disabled, hence allowing the instances to expire.
+        return true;
+    }
+    // <2>
+    // getNumOfRenewsInLastMin: 续租每分钟次数
+    // numberOfRenewsPerMinThreshold: 每分钟阈值的续订次数(根据默认 85%计算，100个实例至少需要85个心跳次数)
+    return numberOfRenewsPerMinThreshold > 0 && getNumOfRenewsInLastMin() > numberOfRenewsPerMinThreshold;
+}
+```
+
+说明：
+
+- <1> 关闭自我保护，每次都是 true，相当于每次都驱逐。
+- <2> 开启自我保护，这个需要和 <u>"续租每分钟次数"</u> 以及 <u>"每分钟阈值的续订次数(根据默认 85%计算，100 个实例至少需要 85 个心跳次数) "</u> 进行计算；简单理解就是，<u>"每分钟的一个预期心跳值"</u> 和 <u>"最后一分钟统计的心跳值"</u> 进行对比，统计的值 > 预期值的时候 = true
+
+##### <1> isExpired 判断是否过期
 
 ```java
 // Lease
@@ -163,13 +184,52 @@ public boolean isExpired(long additionalLeaseMs) {
 
 说明：
 
+- additionalLeaseMs 这是一个服务器同步 预计消耗的时间(只是一个预估时间)
+- duration 是 client 续约的一个有效时间（每次续约需要保持多久），
+- 当前时间 > 过期时间 = 过期
 
+### 配置说明
 
+```yml
+eureka:
+  client:
+    # 禁用client刷新，自动刷新会导致，刷新的时候短暂的不可用 https://cloud.spring.io/spring-cloud-netflix/reference/html/#netflix-eureka-client-starter
+    refresh:
+      enable: false
+    register-with-eureka: false # 不注册到 Eureka-Server，默认为 true
+    fetch-registry: false # 不从 Eureka-Server 获取注册表，默认为 true
+    healthcheck: # 开启心跳机制
+      enabled: true
+  server:
+    enable-self-preservation: true # 关闭自我保护
+    evictionIntervalTimerInMs: 60000 # 驱逐定时时间(默认60秒)
+```
 
+说明：
+
+- evictionIntervalTimerInMs 可以设置驱逐时间，检测的就越频繁，默认 60 秒
+- enable-self-preservation 可以关闭自我保护，默认是 true
 
 完结~
 
+### 问答
 
+1. 驱逐是什么？
 
+   答：**EurekaServer 驱逐** 是 <u>**未及时续约**</u> 或 **<u>异常退出</u>** 的服务
 
+2) 自我保护(enable-self-preservation) 为 true 时，怎么才能启动驱逐？
 
+   答：开启自我保护的时候，有个阈值( `renewalPercentThreshold` 默认 85%)，如果触发了自我保护机制，就不会启动驱逐。
+
+3. 自我保护(enable-self-preservation) 为 false 时，怎么才能启动驱逐？为什么？
+
+   答：关闭自我保护时，会每次启动驱逐。因为自我保护，就是为了解决异常的情况(在同一时间段 100 个实例，就收到了 1 个实例的心跳，这就是异常)，有个阈值( `renewalPercentThreshold` 默认 85%)，都关闭了自我保护，就随便我怎么驱逐。
+
+4) 说一下 numberOfRenewsPerMinThreshold、renewsLastMin、expectedNumberOfClientsSendingRenews 这几个属性？
+
+   `numberOfRenewsPerMinThreshold` 每分钟阈值的续订次数(根据默认 85%计算，100 个实例至少需要 85 个心跳次数)
+
+   `expectedNumberOfClientsSendingRenews`客户端发送续约，预期的一个数量(就是客户端数量)
+
+   `renewsLastMin` 续租每分钟次数
