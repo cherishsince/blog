@@ -6,7 +6,7 @@ EurekaClient 默认情况下优先，本区域的 Zone 服务，如果注册失�
 
 更多 zone 说明：https://blog.csdn.net/limingcai168/article/details/84659135
 
-![1](image\1.png)
+![1](..\..\public\eureka\image\1.png)
 
 ### 如何配置
 
