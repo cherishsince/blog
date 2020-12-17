@@ -1,4 +1,47 @@
-# EurekaServer服务注册
+# Eureka 服务注册
+
+## EurekaClient 服务注册
+
+`EurekaClient` 只会在三种情况下会去 register，第一个是 `EurekaClient` 创建的时候，另一个 `EurekaClient` 心跳续约返回 `NOT_FOUND` 的时候。
+
+##### 创建的时候注册
+
+代码如下：
+
+```java
+// DiscoveryClient
+@Inject
+DiscoveryClient(ApplicationInfoManager applicationInfoManager, EurekaClientConfig config,
+                AbstractDiscoveryClientOptionalArgs args,
+                Provider<BackupRegistry> backupRegistryProvider, EndpointRandomizer endpointRandomizer) {
+    // 略...
+    // 开启注册 and 开启注册时强制注册
+    if (clientConfig.shouldRegisterWithEureka() && clientConfig.shouldEnforceRegistrationAtInit()) {
+        try {
+            // 发送 http 注册服务
+            if (!register() ) {
+                throw new IllegalStateException("Registration error at startup. Invalid server response.");
+            }
+        } catch (Throwable th) {
+            logger.error("Registration error at startup: {}", th.getMessage());
+            throw new IllegalStateException(th);
+        }
+    }
+
+    // 略...
+}
+```
+
+##### 心跳续约 NOT_FOUND 注册
+
+```java
+
+
+```
+
+## EurekaServer 服务注册
+
+代码如下：
 
 ```java
 
