@@ -35,9 +35,40 @@ DiscoveryClient(ApplicationInfoManager applicationInfoManager, EurekaClientConfi
 ##### 心跳续约 NOT_FOUND 注册
 
 ```java
-
-
+boolean renew() {
+    EurekaHttpResponse<InstanceInfo> httpResponse;
+    try {
+        // <1> 发送心跳
+        httpResponse = eurekaTransport.registrationClient.sendHeartBeat(
+                instanceInfo.getAppName(), instanceInfo.getId(), instanceInfo, null);
+        logger.debug(PREFIX + "{} - Heartbeat status: {}", appPathIdentifier, httpResponse.getStatusCode());
+        // <2> 如果续约，返回 NOT_FOUND，就再发送心跳过程中，如果服务不存在，再次调用 register，去注册服务
+        if (httpResponse.getStatusCode() == Status.NOT_FOUND.getStatusCode()) {
+            // <2.1> 注册服务 count +1
+            REREGISTER_COUNTER.increment();
+            logger.info(PREFIX + "{} - Re-registering apps/{}", appPathIdentifier, instanceInfo.getAppName());
+            // <2.2> 将当前时间作为脏数据设置
+            long timestamp = instanceInfo.setIsDirtyWithTime();
+            // <2.3> 调用服务注册
+            boolean success = register();
+            if (success) {
+                // 取消脏数据标识
+                instanceInfo.unsetIsDirty(timestamp);
+            }
+            return success;
+        }
+        return httpResponse.getStatusCode() == Status.OK.getStatusCode();
+    } catch (Throwable e) {
+        logger.error(PREFIX + "{} - was unable to send heartbeat!", appPathIdentifier, e);
+        return false;
+    }
+}
 ```
+
+说明：
+
+- <2> 如果续约，返回 NOT_FOUND，就再发送心跳过程中，如果服务不存在，再次调用 register，去注册服务
+- <2.3> 调用服务注册
 
 ## EurekaServer 服务注册
 
