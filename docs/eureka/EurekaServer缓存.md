@@ -58,7 +58,7 @@ private final LoadingCache<Key, Value> readWriteCacheMap;
 说明：
 
 - readOnlyCacheMap 只读缓存，是一个 ConcurrentMap 只负责读取，也是 readWriteCacheMap 的一个二级缓存。
-- readWriteCacheMap 读写缓存，使用的时 guava 来实现的，默认 180 秒过期
+- readWriteCacheMap 读写缓存，使用的时 guava 来实现的，默认 180 秒过期，默认 1000 大小
 
 ### 只读缓存 readOnlyCacheMap
 
