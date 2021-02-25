@@ -38,4 +38,8 @@ client 添加账号密码
 eureka.client.serviceUrl.defaultZone=http://${userName}:${password}@localhost:1111/eureka/
 ```
 
+
+
+
+
 完结~

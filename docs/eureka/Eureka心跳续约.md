@@ -584,7 +584,13 @@ private void replicateToPeers(Action action, String appName, String id,
 - <3.1> 排除自己，如果是自己就不用发送了
 - <3.2> 调用复制，就是复制请求，是 register 就发送 register，是 Cancel 就发送 Cancel(注意，如果是复制请求，发送的时候 `isReplication=false` 会设置为 false)
 
+
+
+
+
 完结~
+
+
 
 ## 问答
 
